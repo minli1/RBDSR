@@ -1,10 +1,11 @@
 #!/bin/bash
-DEFAULT_CEPH_VERSION="luminous"
+DEFAULT_CEPH_VERSION="mimic"
 
 # Usage: installCephRepo <ceph-version>
 function installCephRepo {
   echo "Install new Repos"
-  yum install --enablerepo="extras,base" -y centos-release-ceph-$1.noarch
+  rpm -Uvh https://download.ceph.com/rpm-$1/el7/noarch/ceph-release-1-1.el7.noarch.rpm
+  yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
   echo "centos" > /etc/yum/vars/contentdir
 }
 
@@ -23,17 +24,35 @@ function installXCPngRepo {
   major_version=`cat /etc/centos-release | awk '{print $3}' | awk -F. '{print $1}'`
   major_minor_version=`cat /etc/centos-release | awk '{print $3}' | awk -F. '{print $1"."$2}'`
   cat << EOF >/etc/yum.repos.d/xcp-ng.repo
-[xcp-ng-extras_testing]
-name=XCP-ng Extras Testing Repository
-baseurl=https://updates.xcp-ng.org/${major_version}/${major_minor_version}/extras_testing/x86_64/
-enabled=0
-gpgcheck=0
+[xcp-ng-base]
+name=XCP-ng Base Repository
+baseurl=https://updates.xcp-ng.org/${major_version}/${major_minor_version}/base/x86_64/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-xcpng
+
+[xcp-ng-updates]
+name=XCP-ng Updates Repository
+baseurl=https://updates.xcp-ng.org/${major_version}/${major_minor_version}/updates/x86_64/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-xcpng
+
+[xcp-ng-extras]
+name=XCP-ng Extras Repository
+baseurl=https://updates.xcp-ng.org/${major_version}/${major_minor_version}/extras/x86_64/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-xcpng
 EOF
 }
 
 # Usage: confirmInstallation
 function confirmInstallation {
-  echo "This script is going to install 'xcp-ng-extras_testing' repository"
+  echo "This script is going to install 'xcp-ng' repository"
   echo "and upgrade 'glibc' and 'qemu-dp' packages."
   echo "Please note that Ceph support is experimental and can lead to"
   echo "an unstable system and data loss"
@@ -112,8 +131,8 @@ function uninstallCeph {
 }
 
 function upgradeDeps {
-  yum install --enablerepo="xcp-ng-extras_testing*" -y qemu-dp
-  yum install --enablerepo="extras,base" -y glibc-2.17-222.el7
+  yum install --enablerepo="xcp-ng*" -y qemu-dp
+  yum install --enablerepo="extras,base" -y glibc
 }
 
 function downgradeDeps {
@@ -181,7 +200,9 @@ function installFiles {
   ln -s rbd+raw+qdisk /usr/libexec/xapi-storage-script/datapath/rbd+qcow2+qdisk
 
   rm -rf /lib/python2.7/site-packages/xapi/storage/libs/librbd
+  mkdir /lib/python2.7/site-packages/xapi/storage/libs
   mkdir /lib/python2.7/site-packages/xapi/storage/libs/librbd
+  touch /lib/python2.7/site-packages/xapi/storage/libs/__init__.py
 
   copyFile "xapi/storage/libs/librbd/__init__.py" "/lib/python2.7/site-packages/xapi/storage/libs/librbd/__init__.py"
   copyFile "xapi/storage/libs/librbd/ceph_utils.py" "/lib/python2.7/site-packages/xapi/storage/libs/librbd/ceph_utils.py"
