@@ -1,5 +1,5 @@
 #!/bin/bash
-REPO="https://github.com/rposudnevskiy"
+REPO="https://github.com/minli1"
 PROJECT="RBDSR"
 BRANCH="3.0"
 cd ~
