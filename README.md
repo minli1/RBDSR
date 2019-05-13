@@ -14,7 +14,7 @@ Plugin requires `qemu-dp.x86_64` ([xcp-ng-rpms/qemu-dp](https://github.com/xcp-n
 
    To install certain version of ceph storage, provide version name (```jewel```, ```luminous``` or ```mimic```) as first parameter:
 
-		# sh <(curl -s https://raw.githubusercontent.com/minlip/RBDSR/v3.0/netinstall.sh) mimic
+		# sh <(curl -s https://raw.githubusercontent.com/minli1/RBDSR/v3.0/netinstall.sh) mimic
  
 2. Create ```/etc/ceph/ceph.conf``` accordingly you Ceph cluster. The easiest way is just copy it from your Ceph cluster node
 
