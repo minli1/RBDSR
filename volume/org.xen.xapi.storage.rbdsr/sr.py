@@ -123,6 +123,7 @@ class Implementation(SR_skeleton):
         ceph_cluster = ceph_utils.connect(dbg, uri)
 
         ceph_pool_name = utils.get_pool_name_by_uri(dbg, uri)
+        log.debug("111 pool name is %s" % ceph_pool_name)
 
         if ceph_cluster.pool_exists(ceph_pool_name):
             raise Exception("Pool %s already exists" % ceph_pool_name)

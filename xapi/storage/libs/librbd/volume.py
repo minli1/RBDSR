@@ -74,6 +74,7 @@ class Volume(object):
                                     key)
 
         try:
+            log.debug("11111111111 image_name is %s" %image_name)
             image_meta = meta.RBDMetadataHandler.load(dbg, uri)
             image_meta[meta.PHYSICAL_UTILISATION_TAG] = rbd_utils.getPhysicalUtilisation(dbg,
                                                                                          ceph_cluster,

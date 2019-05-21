@@ -28,24 +28,24 @@ function installXCPngRepo {
 name=XCP-ng Base Repository
 baseurl=https://updates.xcp-ng.org/${major_version}/${major_minor_version}/base/x86_64/
 enabled=1
-gpgcheck=1
-repo_gpgcheck=1
+gpgcheck=0
+repo_gpgcheck=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-xcpng
 
 [xcp-ng-updates]
 name=XCP-ng Updates Repository
 baseurl=https://updates.xcp-ng.org/${major_version}/${major_minor_version}/updates/x86_64/
 enabled=1
-gpgcheck=1
-repo_gpgcheck=1
+gpgcheck=0
+repo_gpgcheck=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-xcpng
 
 [xcp-ng-extras]
 name=XCP-ng Extras Repository
 baseurl=https://updates.xcp-ng.org/${major_version}/${major_minor_version}/extras/x86_64/
 enabled=1
-gpgcheck=1
-repo_gpgcheck=1
+gpgcheck=0
+repo_gpgcheck=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-xcpng
 EOF
 }
