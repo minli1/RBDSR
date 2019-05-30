@@ -131,13 +131,13 @@ function uninstallCeph {
 }
 
 function upgradeDeps {
-  yum install --enablerepo="xcp-ng*" -y qemu-dp
+  #yum install --enablerepo="xcp-ng*" -y qemu-dp
   yum install --enablerepo="extras,base" -y glibc
 }
 
 function downgradeDeps {
   yum history undo -y `yum history packages-list glibc | head -4 | tail -1 | awk -F\| '{gsub(/ /, "", $0); print $1}'`
-  yum history undo -y `yum history packages-list qemu-dp | head -4 | tail -1 | awk -F\| '{gsub(/ /, "", $0); print $1}'`
+  #yum history undo -y `yum history packages-list qemu-dp | head -4 | tail -1 | awk -F\| '{gsub(/ /, "", $0); print $1}'`
 }
 
 function installFiles {
